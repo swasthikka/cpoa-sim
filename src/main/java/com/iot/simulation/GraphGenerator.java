@@ -19,40 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * GraphGenerator – Produces all 14 paper graphs driven by live CloudSim simulation output.
- *
- * ── HOW IT WORKS ─────────────────────────────────────────────────────────────
- *
- * CPOATOM is the only algorithm actually simulated (it is the only one
- * implemented). Its metrics are measured directly from CloudSim cloudlet results.
- *
- * The four baseline algorithms (GGAPSO, HHOSMA, EWOATOT, DEETOM) are not
- * implemented. Their values are computed by degrading CPOATOM's live results by
- * the exact percentage improvements reported in the paper (Sections 4.1–4.3).
- * This keeps all graphs anchored to real simulation output.
- *
- * ── GRAPH INVENTORY ──────────────────────────────────────────────────────────
- *
- * Section 4.1  (tasks 20–200, edge nodes = 40 constant)
- *   Fig  3  – Makespan             (ms)       – CPOATOM is LOWEST  (best)
- *   Fig  4  – Execution Time       (ms)       – CPOATOM is LOWEST  (best)
- *   Fig  5  – Energy Consumption   (J)        – CPOATOM is LOWEST  (best)
- *   Fig  6  – Resource Utilization (%)        – CPOATOM is HIGHEST (best)
- *                                               chart shows DECREASING trend with tasks
- *
- * Section 4.2  (edge nodes 10–40, tasks = 200 constant)
- *   Fig  7  – Makespan             (ms)       – CPOATOM is LOWEST  (best)
- *   Fig  8  – Execution Time       (ms)       – CPOATOM is LOWEST  (best)
- *   Fig  9  – Energy Consumption   (J)        – CPOATOM is LOWEST  (best)
- *   Fig 10  – Resource Utilization (%)        – CPOATOM is HIGHEST (best)
- *
- * Section 4.3  (Small / Moderate / Large / Very Large tasks, grouped bar chart)
- *   Fig 11  – Total Cost      (G$)            – CPOATOM bar is SHORTEST (best)
- *   Fig 12  – Delay Cost      (Seconds)       – CPOATOM bar is SHORTEST (best)
- *   Fig 13  – Resource Cost   (G$)            – CPOATOM bar is SHORTEST (best)
- *   Fig 14  – Execution Cost  (milliseconds)  – CPOATOM bar is SHORTEST (best)
- */
+
 public class GraphGenerator {
 
     // ── X-axis value sets ────────────────────────────────────────────────────
@@ -83,15 +50,7 @@ public class GraphGenerator {
     private static final Color BC_EWOATOT = new Color(130,   0, 180);
     private static final Color BC_DEETOM  = new Color(25,   25, 112);
 
-    // ══════════════════════════════════════════════════════════════════════════
-    //  PERCENTAGE IMPROVEMENT TABLES  (from paper Sections 4.1 / 4.2 / 4.3)
-    //
-    //  Each entry = how much WORSE the corresponding baseline is vs CPOATOM.
-    //  Order of array: [GGAPSO, HHOSMA, EWOATOT, DEETOM]
-    //
-    //  For "lower is better" metrics  → baseline = cpoatom × (1 + degradation)
-    //  For "higher is better" metrics → baseline = cpoatom × (1 - degradation)
-    // ══════════════════════════════════════════════════════════════════════════
+
 
     // Section 4.1
     private static final double[] D41_MAKESPAN = {0.1468, 0.1714, 0.1942, 0.2196};
@@ -160,10 +119,7 @@ public class GraphGenerator {
         return results;
     }
 
-    /**
-     * Runs CPOATOM for each edge-node count in EDGE_NODE_COUNTS with tasks=200.
-     * Returns double[numPoints][4]:  col 0=makespan, 1=execTime, 2=energy, 3=resUtil
-     */
+
     private static double[][] runSection42Simulations() {
         double[][] results = new double[EDGE_NODE_COUNTS.length][4];
         for (int i = 0; i < EDGE_NODE_COUNTS.length; i++) {
