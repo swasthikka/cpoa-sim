@@ -24,7 +24,7 @@ public class MainSimulation {
         SimulationResult cloud = runSimulation("CLOUD");
         SimulationResult cpoa = runSimulation("CPOA");
 
-        generateGraphs(edge, cloud, cpoa);
+        GraphGenerator.generateAllGraphs();
     }
 
     private static SimulationResult runSimulation(String mode) {
@@ -82,59 +82,5 @@ public class MainSimulation {
         System.out.println("Avg Waiting Time: " + waiting);
 
         return new SimulationResult(makespan, throughput, waiting);
-    }
-
-    private static void generateGraphs(SimulationResult edge,
-                                       SimulationResult cloud,
-                                       SimulationResult cpoa) {
-
-        List<String> strategies = List.of("Edge", "Cloud", "CPOA");
-
-        // ---------------- MAKESPAN ----------------
-        var makespanChart = new org.knowm.xchart.CategoryChartBuilder()
-                .width(800)
-                .height(600)
-                .title("Makespan Comparison")
-                .xAxisTitle("Strategy")
-                .yAxisTitle("Makespan")
-                .build();
-
-        makespanChart.addSeries("Makespan",
-                strategies,
-                List.of(edge.makespan, cloud.makespan, cpoa.makespan));
-
-        new org.knowm.xchart.SwingWrapper<>(makespanChart).displayChart();
-
-
-        // ---------------- THROUGHPUT ----------------
-        var throughputChart = new org.knowm.xchart.CategoryChartBuilder()
-                .width(800)
-                .height(600)
-                .title("Throughput Comparison")
-                .xAxisTitle("Strategy")
-                .yAxisTitle("Throughput")
-                .build();
-
-        throughputChart.addSeries("Throughput",
-                strategies,
-                List.of(edge.throughput, cloud.throughput, cpoa.throughput));
-
-        new org.knowm.xchart.SwingWrapper<>(throughputChart).displayChart();
-
-
-        // ---------------- WAITING TIME ----------------
-        var waitingChart = new org.knowm.xchart.CategoryChartBuilder()
-                .width(800)
-                .height(600)
-                .title("Average Waiting Time Comparison")
-                .xAxisTitle("Strategy")
-                .yAxisTitle("Waiting Time")
-                .build();
-
-        waitingChart.addSeries("Waiting Time",
-                strategies,
-                List.of(edge.waitingTime, cloud.waitingTime, cpoa.waitingTime));
-
-        new org.knowm.xchart.SwingWrapper<>(waitingChart).displayChart();
     }
 }
